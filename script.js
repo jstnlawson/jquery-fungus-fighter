@@ -10,8 +10,8 @@ $(document).ready(onReady);
 // - State may be held in one our more variables of your choosing
 // - HP and AP values may not be negative (set to zero, if they would otherwise be negative)
 
-let fungusHP = 0
-let playerAP = 0
+let fungusHP = 100
+let playerAP = 100
 
 function onReady() {
     
@@ -34,11 +34,21 @@ function onReady() {
 // - **AP Cost:** 12
 // - **HP Damage:** 14
 
+// **Progress Bar**
+
+// When state changes:
+//   - Update the value of each `<progress>` element
+
+// > Hint: the jQuery `.val()` method updates the `value` 
+// attribute of HTML elements!
+
 function arcaneAttack() {
     console.log('in arcane attack')
     //take the fungus hp and player ap down by 10
     playerAP = Number($('#attack-points').text())
     let weaponCost = Number(playerAP) - 12
+    let attackMeter = $('#ap-meter').val()
+    let attackDecriment = attackMeter - 12
     if (weaponCost < 0) {
         weaponCost = 0
         $(this).prop('disabled', true)
@@ -46,10 +56,15 @@ function arcaneAttack() {
     }
     fungusHP = Number($("#fungus-points").text())
     let weaponDamage = Number(fungusHP) - 14
+    let healthMeter = $('#hp-meter').val()
+    let healthDecriment = healthMeter - 14
     if (weaponDamage < 0) {
         weaponDamage = 0
+        $(this).prop('disabled', true)
         deathOfFungus()
     }
+    $('#ap-meter').val(attackDecriment)
+    $('#hp-meter').val(healthDecriment)
     $('#fungus-points').text(weaponDamage)
     $('#attack-points').text(weaponCost)
 }
@@ -63,6 +78,8 @@ function arcaneAttack() {
 function entangleAttack() {
     playerAP = Number($('#attack-points').text())
     let weaponCost = Number(playerAP) - 23
+    let attackMeter = $('#ap-meter').val()
+    let attackDecriment = attackMeter -23
     if (weaponCost < 0) {
         weaponCost = 0
         $(this).prop('disabled', true)
@@ -70,12 +87,17 @@ function entangleAttack() {
     }
     fungusHP = Number($("#fungus-points").text())
     let weaponDamage = Number(fungusHP) - 9
+    let healthMeter = $('#hp-meter').val()
+    let healthDecriment = healthMeter - 9
     if (weaponDamage < 0) {
         weaponDamage = 0
+        $(this).prop('disabled', true)
         deathOfFungus()
     }
     $('#fungus-points').text(weaponDamage)
     $('#attack-points').text(weaponCost)
+    $('#ap-meter').val(attackDecriment)
+    $('#hp-meter').val(healthDecriment)
 }
 
 // Dragon Blade
@@ -86,6 +108,8 @@ function entangleAttack() {
 function dragonAttack(){
     playerAP = Number($('#attack-points').text())
     let weaponCost = Number(playerAP) - 38
+    let attackMeter = $('#ap-meter').val()
+    let attackDecriment = attackMeter - 38
     if (weaponCost < 0) {
         weaponCost = 0
         $(this).prop('disabled', true)
@@ -93,12 +117,17 @@ function dragonAttack(){
     }
     fungusHP = Number($("#fungus-points").text())
     let weaponDamage = Number(fungusHP) - 47
+    let healthMeter = $('#hp-meter').val()
+    let healthDecriment = healthMeter - 47
     if (weaponDamage < 0) {
         weaponDamage = 0
+        $(this).prop('disabled', true)
         deathOfFungus()
     }
     $('#fungus-points').text(weaponDamage)
     $('#attack-points').text(weaponCost)
+    $('#ap-meter').val(attackDecriment)
+    $('#hp-meter').val(healthDecriment)
 }
 
 // Star Fire
@@ -109,6 +138,8 @@ function dragonAttack(){
 function starFireAttack() {
     playerAP = Number($('#attack-points').text())
     let weaponCost = Number(playerAP) - 33
+    let attackMeter = $('#ap-meter').val()
+    let attackDecriment = attackMeter - 33
     if (weaponCost < 0) {
         weaponCost = 0
         $(this).prop('disabled', true)
@@ -116,12 +147,19 @@ function starFireAttack() {
     }
     fungusHP = Number($("#fungus-points").text())
     let weaponDamage = Number(fungusHP) - 25
+    let healthMeter = $('#hp-meter').val()
+    let healthDecriment = healthMeter - 25
     if (weaponDamage < 0) {
         weaponDamage = 0
+        $(this).prop('disabled', true)
+        //regenerate()
         deathOfFungus()
     }
     $('#fungus-points').text(weaponDamage)
     $('#attack-points').text(weaponCost)
+    $('#ap-meter').val(attackDecriment)
+    $('#hp-meter').val(healthDecriment)
+    
 }
 
 
@@ -145,19 +183,36 @@ function deathOfPlayer() {
     $('#fungus-animation').addClass('jump')
 }
 
+// If the Freaky Fungus' HP falls below 50, have it regenerate 
+// 1 HP every second.
+
+// > HINT: Look up the built in `setInterval()` function!
+
+// function regenerate() {
+//     if (fungusHP < 50) {
+//         fungusHp.setInterval(startCount, 1000)
+//     }
+// }
+
+
+
 // function disableAttack() {
 //     $(this).prop('disabled', true)
 // }
 
-// function render() {
-//     if (weaponDamage < 0) {
-//         weaponDamage = 0
-//         deathOfFungus()
-//     }
-//     if (weaponCost < 1) {
-//         weaponCost = 0
-//         deathOfPlayer()
-//     }
-// // $('#fungus-points').text(weaponDamage)
-// // $('#attack-points').text(weaponCost)
-// }
+//function render() {
+    // playerAP = Number($('#attack-points').text())
+    // if (weaponDamage < 0) {
+    //     weaponDamage = 0
+    //     $(this).prop('disabled', true)
+    //     deathOfFungus()
+    // }
+    // fungusHP = Number($("#fungus-points").text())
+    // if (weaponCost < 1) {
+    //     weaponCost = 0
+    //     $(this).prop('disabled', true)
+    //     deathOfPlayer()
+//    }
+//$('#fungus-points').text(weaponDamage)
+//$('#attack-points').text(weaponCost)
+//}
