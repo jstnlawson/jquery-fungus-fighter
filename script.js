@@ -36,14 +36,16 @@ function arcaneAttack() {
     //take the fungus hp and player ap down by 10
     fungusHP = Number($("#fungus-points").text())
     let arcaneDamage = Number(fungusHP) - 14
-
+        if (arcaneDamage < 0) {
+                arcaneDamage = 0
+            }
     playerAP = Number($('#attack-points').text())
     let arcaneCost = Number(playerAP) - 12
-
+            if (arcaneCost < 1) {
+                arcaneCost = 0
+            }
     $('#fungus-points').text(arcaneDamage)
-    $('#attack-points').text(arcaneCost)
-    console.log(arcaneAttack)
-       //playerAP -= 12     
+    $('#attack-points').text(arcaneCost)    
 }
 
 
